@@ -37,7 +37,7 @@ repositories {
 dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("org.json:json:20231013")
-    implementation("com.github.spullara.mustache.java:compiler:0.9.10")
+    implementation("com.github.spullara.mustache.java:compiler:0.9.14")
     
     intellijPlatform {
         create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
