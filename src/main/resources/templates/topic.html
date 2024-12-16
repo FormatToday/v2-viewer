@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { 
+            font-family: '{{{fontFamily}}}'; 
+            font-size: {{fontSize}}pt;
+            line-height: 1.4;
+            max-width: 100%;
+            margin: 0;
+            padding: 8px;
+        }
+        .title { 
+            font-weight: {{titleWeight}}; 
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .divider { 
+            border-top: 1px solid #ccc; 
+            margin: 15px 0;
+            padding: 0;
+        }
+        img { 
+            max-width: 100%; 
+            height: auto; 
+            margin: 10px 0;
+            display: block;
+        }
+        p { 
+            margin: 8px 0;
+            word-wrap: break-word;
+        }
+        a {
+            word-wrap: break-word;
+        }
+        .pagination {
+            margin: 10px 0;
+            color: #666;
+        }
+        .meta {
+            color: #666;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">{{title}}</div>
+    <div class="content">{{{content}}}</div>
+    <div class="meta">
+        节点: {{node}} | 作者: {{author}} | 回复: {{replyCount}}
+    </div>
+    {{#showPagination}}
+    <div class="divider"></div>
+    <div class="pagination">第 {{currentPage}}/{{totalPages}} 页</div>
+    {{/showPagination}}
+    {{#replies}}
+    <div class="divider"></div>
+    <div class="reply">
+        <div class="meta">#{{number}} {{author}}</div>
+        <div class="content">{{{content}}}</div>
+    </div>
+    {{/replies}}
+</body>
+</html> 
