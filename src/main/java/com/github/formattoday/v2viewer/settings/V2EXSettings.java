@@ -1,6 +1,9 @@
 package com.github.formattoday.v2viewer.settings;
 
-import com.intellij.openapi.components.*;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +35,7 @@ public class V2EXSettings implements PersistentStateComponent<V2EXSettings> {
      * 获取设置实例
      */
     public static V2EXSettings getInstance() {
-        return ServiceManager.getService(V2EXSettings.class);
+        return ApplicationManager.getApplication().getService(V2EXSettings.class);
     }
 
     /**
