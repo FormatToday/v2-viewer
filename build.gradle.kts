@@ -19,11 +19,15 @@ kotlin {
     jvmToolchain(17)
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 // Configure project's dependencies
 repositories {
     mavenCentral()
-
-    // IntelliJ Platform Gradle Plugin Repositories Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-repositories-extension.html
     intellijPlatform {
         defaultRepositories()
     }
@@ -31,30 +35,19 @@ repositories {
 
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
-    testImplementation(libs.junit)
-
-    // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("org.json:json:20231013")
+    implementation("com.github.spullara.mustache.java:compiler:0.9.10")
+    
     intellijPlatform {
         create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
-
-        // Plugin Dependencies. Uses `platformBundledPlugins` property from the gradle.properties file for bundled IntelliJ Platform plugins.
-        bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
-
-        // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file for plugin from JetBrains Marketplace.
-        plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
-
-//        instrumentationTools()
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
     }
-
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("org.json:json:20231013")
-    implementation("com.github.spullara.mustache.java:compiler:0.9.10")
 }
 
-// Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
+// Configure IntelliJ Platform Gradle Plugin
 intellijPlatform {
     pluginConfiguration {
         version = providers.gradleProperty("pluginVersion")
@@ -99,64 +92,45 @@ intellijPlatform {
 
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")
-        // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
-        // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
-        // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels = providers.gradleProperty("pluginVersion")
             .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
+}
 
-    pluginVerification {
-        ides {
-            recommended()
+sourceSets {
+    main {
+        java {
+            srcDirs("src/main/java")
         }
-    }
-}
-
-// Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
-changelog {
-    groups.empty()
-    repositoryUrl = providers.gradleProperty("pluginRepositoryUrl")
-}
-
-// Configure Gradle Kover Plugin - read more: https://github.com/Kotlin/kotlinx-kover#configuration
-kover {
-    reports {
-        total {
-            xml {
-                onCheck = true
-            }
+        resources {
+            srcDirs("src/main/resources")
         }
     }
 }
 
 tasks {
-    wrapper {
-        gradleVersion = providers.gradleProperty("gradleVersion").get()
+    compileKotlin {
+        dependsOn(processResources)
     }
-
-    publishPlugin {
-        dependsOn(patchChangelog)
+    
+    compileJava {
+        dependsOn(compileKotlin)
     }
-}
-
-intellijPlatformTesting {
-    runIde {
-        register("runIdeForUiTests") {
-            task {
-                jvmArgumentProviders += CommandLineArgumentProvider {
-                    listOf(
-                        "-Drobot-server.port=8082",
-                        "-Dide.mac.message.dialogs.as.sheets=false",
-                        "-Djb.privacy.policy.text=<!--999.999-->",
-                        "-Djb.consents.confirmation.enabled=false",
-                    )
-                }
-            }
-
-            plugins {
-                robotServerPlugin()
-            }
+    
+    processResources {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
+    
+    jar {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        from(sourceSets.main.get().output)
+    }
+    
+    buildPlugin {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        from("src/main/resources") {
+            include("**/*")
+            into("v2-viewer")
         }
     }
 }
