@@ -9,15 +9,15 @@
     <resource-bundle>messages.V2ViewerBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.formattoday.v2viewer.toolWindow.V2EXToolWindowFactory" 
-                   id="V2EX News" 
-                   anchor="bottom"/>
-        <applicationService 
-            serviceImplementation="com.github.formattoday.v2viewer.settings.V2EXSettings"/>
-        <applicationConfigurable 
-            parentId="tools"
-            instance="com.github.formattoday.v2viewer.settings.V2EXSettingsConfigurable"
-            id="com.github.formattoday.v2viewer.settings.V2EXSettingsConfigurable"
-            displayName="V2EX Viewer"/>
+        <toolWindow factoryClass="com.github.formattoday.v2viewer.toolWindow.V2EXToolWindowFactory"
+                    id="V2EX News"
+                    anchor="bottom"/>
+        <applicationService
+                serviceImplementation="com.github.formattoday.v2viewer.settings.V2EXSettings"/>
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.github.formattoday.v2viewer.settings.V2EXSettingsConfigurable"
+                id="com.github.formattoday.v2viewer.settings.V2EXSettingsConfigurable"
+                displayName="V2EX Viewer"/>
     </extensions>
 </idea-plugin>

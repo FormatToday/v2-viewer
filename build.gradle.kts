@@ -38,7 +38,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("org.json:json:20240303")
     implementation("com.github.spullara.mustache.java:compiler:0.9.14")
-    
+
     intellijPlatform {
         create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
         pluginVerifier()
@@ -112,20 +112,20 @@ tasks {
     compileKotlin {
         dependsOn(processResources)
     }
-    
+
     compileJava {
         dependsOn(compileKotlin)
     }
-    
+
     processResources {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
-    
+
     jar {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
         from(sourceSets.main.get().output)
     }
-    
+
     buildPlugin {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
         from("src/main/resources") {

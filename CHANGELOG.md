@@ -6,9 +6,10 @@
 
 ## [0.0.1] - 2024-12-16
 
-### Added
+### 初始化
 
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+- 初始化项目
 
 [Unreleased]: https://github.com/FormatToday/v2-viewer/compare/v0.0.1...HEAD
+
 [0.0.1]: https://github.com/FormatToday/v2-viewer/commits/v0.0.1

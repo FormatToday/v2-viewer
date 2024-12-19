@@ -9,9 +9,9 @@ import org.jetbrains.annotations.PropertyKey;
  */
 public final class V2ViewerBundle extends DynamicBundle {
     // 资源文件路径
-    @NonNls 
+    @NonNls
     private static final String BUNDLE = "messages.V2ViewerBundle";
-    
+
     // 单例实例
     private static final V2ViewerBundle INSTANCE = new V2ViewerBundle();
 

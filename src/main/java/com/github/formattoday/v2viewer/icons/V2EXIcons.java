@@ -1,6 +1,7 @@
 package com.github.formattoday.v2viewer.icons;
 
 import com.intellij.openapi.util.IconLoader;
+
 import javax.swing.*;
 
 public final class V2EXIcons {
