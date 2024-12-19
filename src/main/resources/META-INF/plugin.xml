@@ -5,6 +5,8 @@
     <vendor>formattoday</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    
+    <idea-version since-build="232"/>
 
     <resource-bundle>messages.V2ViewerBundle</resource-bundle>
 
